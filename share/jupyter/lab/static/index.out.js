@@ -176,6 +176,16 @@ export async function main() {
       console.error(e);
     }
   }
+  if (!queuedFederated.includes('jupyterlab-plotly')) {
+    try {
+      let ext = require('jupyterlab-plotly/lib/plotly-renderer');
+      for (let plugin of activePlugins(ext)) {
+        mimeExtensions.push(plugin);
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  }
 
   // Add the federated mime extensions.
   const federatedMimeExtensions = await Promise.allSettled(federatedMimeExtensionPromises);
@@ -573,6 +583,16 @@ export async function main() {
   if (!queuedFederated.includes('@jupyterlab/vdom-extension')) {
     try {
       let ext = require('@jupyterlab/vdom-extension');
+      for (let plugin of activePlugins(ext)) {
+        register.push(plugin);
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  }
+  if (!queuedFederated.includes('jupyterlab-plotly')) {
+    try {
+      let ext = require('jupyterlab-plotly/lib/jupyterlab-plugin');
       for (let plugin of activePlugins(ext)) {
         register.push(plugin);
       }
